@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -45,4 +46,28 @@ func AddTask(desc string) (int, error) {
 	tasks = append(tasks, *task)
 
 	return taskId, WriteTasksToFile(tasks)
+}
+
+func UpdateTask(taskId int, desc string) (int, error) {
+	tasks, err := ReadTasksFromFile()
+	if err != nil {
+		return 0, err
+	}
+
+	var updatedTasks []Task
+	var foundTask bool = false
+	for _, task := range tasks {
+		if task.ID == taskId {
+			foundTask = true
+			task.Description = desc
+			task.UpdatedAt = time.Now()
+		}
+		updatedTasks = append(updatedTasks, task)
+	}
+
+	if !foundTask {
+		return 0, fmt.Errorf("Task ID: %v doesn't exist", taskId)
+	}
+
+	return taskId, WriteTasksToFile(updatedTasks)
 }
