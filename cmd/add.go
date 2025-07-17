@@ -13,11 +13,11 @@ func init() {
 }
 
 var addCmd = &cobra.Command{
-	Use:   "add",
+	Use:   "add \"TASK_DESCRIPTION\"",
 	Short: "Add a new task to the task list",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
-			return errors.New("task description is required")
+			return errors.New("invalid args: task description is required")
 		}
 		return nil
 	},
