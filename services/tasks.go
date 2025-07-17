@@ -72,6 +72,35 @@ func UpdateTask(taskId int, desc string) error {
 	return WriteTasksToFile(updatedTasks)
 }
 
+func UpdateTaskStatus(taskId int, status string) error {
+	tasks, err := ReadTasksFromFile()
+	if err != nil {
+		return err
+	}
+
+	var updatedTasks []Task
+	var foundTask bool = false
+	for _, task := range tasks {
+		if task.ID == taskId {
+			foundTask = true
+			switch status {
+			case TASK_STATUS_IN_PROGRESS:
+				task.Status = TASK_STATUS_IN_PROGRESS
+			case TASK_STATUS_DONE:
+				task.Status = TASK_STATUS_DONE
+			}
+			task.UpdatedAt = time.Now()
+		}
+		updatedTasks = append(updatedTasks, task)
+	}
+
+	if !foundTask {
+		return fmt.Errorf("Task ID: %v not found", taskId)
+	}
+
+	return WriteTasksToFile(updatedTasks)
+}
+
 func DeleteTask(taskId int) error {
 	tasks, err := ReadTasksFromFile()
 	if err != nil {
