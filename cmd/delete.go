@@ -35,6 +35,6 @@ var deleteCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Task ID: %v deleted successfully\n", id)
+		fmt.Printf("Task %v deleted successfully\n", id)
 	},
 }

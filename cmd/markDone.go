@@ -34,6 +34,6 @@ var markDoneCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Task ID: %v updated successfully\n", id)
+		fmt.Printf("Task %v updated successfully\n", id)
 	},
 }

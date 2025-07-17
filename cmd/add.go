@@ -28,7 +28,7 @@ var addCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Task ID: %v added successfully\n", id)
+		fmt.Printf("Task %v added successfully\n", id)
 	},
 }
 
