@@ -29,6 +29,40 @@ func NewTask(id int, desc string) *Task {
 	}
 }
 
+func ListTasks(filter string) error {
+	tasks, err := ReadTasksFromFile()
+	if err != nil {
+		return err
+	}
+
+	switch filter {
+	case "all":
+		for _, task := range tasks {
+			fmt.Printf("Task %v: %v (%v)\n", task.ID, task.Description, task.Status)
+		}
+	case "todo":
+		for _, task := range tasks {
+			if task.Status == TASK_STATUS_TODO {
+				fmt.Printf("Task %v: %v\n", task.ID, task.Description)
+			}
+		}
+	case "in-progress":
+		for _, task := range tasks {
+			if task.Status == TASK_STATUS_IN_PROGRESS {
+				fmt.Printf("Task %v: %v\n", task.ID, task.Description)
+			}
+		}
+	case "done":
+		for _, task := range tasks {
+			if task.Status == TASK_STATUS_DONE {
+				fmt.Printf("Task %v: %v\n", task.ID, task.Description)
+			}
+		}
+	}
+
+	return nil
+}
+
 func AddTask(desc string) (int, error) {
 	tasks, err := ReadTasksFromFile()
 	if err != nil {
