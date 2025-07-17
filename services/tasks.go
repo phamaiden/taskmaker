@@ -48,10 +48,10 @@ func AddTask(desc string) (int, error) {
 	return taskId, WriteTasksToFile(tasks)
 }
 
-func UpdateTask(taskId int, desc string) (int, error) {
+func UpdateTask(taskId int, desc string) error {
 	tasks, err := ReadTasksFromFile()
 	if err != nil {
-		return 0, err
+		return err
 	}
 
 	var updatedTasks []Task
@@ -66,8 +66,29 @@ func UpdateTask(taskId int, desc string) (int, error) {
 	}
 
 	if !foundTask {
-		return 0, fmt.Errorf("Task ID: %v doesn't exist", taskId)
+		return fmt.Errorf("Task ID: %v doesn't exist", taskId)
 	}
 
-	return taskId, WriteTasksToFile(updatedTasks)
+	return WriteTasksToFile(updatedTasks)
+}
+
+func DeleteTask(taskId int) error {
+	tasks, err := ReadTasksFromFile()
+	if err != nil {
+		return err
+	}
+
+	var foundTask bool = false
+	for i, task := range tasks {
+		if task.ID == taskId {
+			foundTask = true
+			tasks = append(tasks[:i], tasks[i+1:]...)
+		}
+	}
+
+	if !foundTask {
+		return fmt.Errorf("Task ID: %v doesn't exist", taskId)
+	}
+
+	return WriteTasksToFile(tasks)
 }
