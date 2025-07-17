@@ -33,6 +33,7 @@ var updateCmd = &cobra.Command{
 		err = services.UpdateTask(id, desc)
 		if err != nil {
 			fmt.Println("Error updating task:", err)
+			return
 		}
 
 		fmt.Printf("Task ID: %v updated successfully\n", id)
